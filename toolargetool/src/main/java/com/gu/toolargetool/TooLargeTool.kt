@@ -20,7 +20,7 @@ object TooLargeTool {
     private var activityLogger: ActivitySavedStateLogger? = null
 
     val isLogging: Boolean
-        get() = activityLogger!!.isLogging
+        get() = activityLogger?.isLogging?:false
 
     /**
      * Helper method to print the result of [.bundleBreakdown] to ADB.
@@ -90,11 +90,11 @@ object TooLargeTool {
             activityLogger = ActivitySavedStateLogger(formatter, logger, true)
         }
 
-        if (activityLogger!!.isLogging) {
+        if (activityLogger?.isLogging==true) {
             return
         }
 
-        activityLogger!!.startLogging()
+        activityLogger?.startLogging()
         application.registerActivityLifecycleCallbacks(activityLogger)
     }
 
@@ -104,11 +104,11 @@ object TooLargeTool {
      * @param application to stop logging
      */
     fun stopLogging(application: Application) {
-        if (!activityLogger!!.isLogging) {
+        if (activityLogger?.isLogging==false) {
             return
         }
 
-        activityLogger!!.stopLogging()
+        activityLogger?.stopLogging()
         application.unregisterActivityLifecycleCallbacks(activityLogger)
     }
 }
